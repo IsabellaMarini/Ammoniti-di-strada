@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+
+  <title>Ammoniti di strada</title>
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="css/modificaZona.css" />
+
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,700|Raleway:400,700&display=swap" rel="stylesheet">
+ 
+</head>
+
+<body>
+  <div class="hero_area">
+    <!-- header section strats -->
+    <header class="header_section">
+        <nav class="navbar navbar-expand-lg custom_nav-container">
+          <img src="images/Ammoniti.jpg" alt="" />
+          <h1> 
+            Ammoniti di strada
+          </h1>
+        </nav>
+      </div>
+    </header>
+  
+    <!-- end header section -->
+  
+  <section class="modifica_zone">
+    <div class="container-fluid">
+        <h2>
+          Dove si trovano gli ammoniti
+        </h2>
+       
+            <form id="aggiungi" >
+              <div id="div">
+                <label for="nome"> Nome:</label> 
+                <input id="nome" type="text" placeholder="nome" name="nome" value=""> 
+                <label for="descrizione">Descrizione:</label> 
+                <textarea id="descrizione" class="descrizione" type="text" placeholder="descrizione" name="descrizione" value=""> </textarea>
+               
+               <label for="latitudine"> Latitudine:</label> <input type="text" id="latitudine" placeholder="latitudine">
+               <label for="longitudine"> Longitudine:</label> <input type="text" id="longitudine" placeholder="longitudine">
+                <hr>
+                <p id="z"></p>
+                
+                <p id="immagine"> </p>
+                <input id="immagine2" type="file">
+               <hr>
+              </div>  
+            <div>
+                <button type="button" id="Indietro" onclick="location.href='zone.html'">Indietro</button>
+               <button type="submit" id="conferma2">Conferma</button>
+            </div>
+          </form>
+        
+       </div>
+  </section>
+  
+  <script type="module" src="js/modificaZone.js"></script>
+</body>
+
+</html>

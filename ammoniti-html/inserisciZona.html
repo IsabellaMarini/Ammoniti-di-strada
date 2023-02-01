@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+
+  <title>Ammoniti di strada</title>
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="css/inserisciZona.css" />
+
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,700|Raleway:400,700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+  <div class="hero_area">
+    <!-- header section strats -->
+    <header class="header_section">
+        <nav class="navbar navbar-expand-lg custom_nav-container">
+          <img src="images/Ammoniti.jpg" alt="" />
+          <h1> 
+            Ammoniti di strada
+          </h1>
+        </nav>
+      </div>
+    </header>
+  
+    <!-- end header section -->
+  
+  <section class="inserisci_zone">
+    <div class="container-fluid">
+        <h2>
+          Aggiungi una nuova zona
+        </h2>
+        <form id="aggiungi" method="post" enctype="multipart/form-data">
+          <label for="nome">Nome:</label>
+            <input id="nome" type="text" placeholder="nome" name="nome" value=""> 
+            <label for="descrizione">Descrizione:</label>
+            <textarea id="descrizione" class="descrizione" type="text" placeholder="descrizione" name="descrizione" value=""> </textarea>
+            <label for="latitudine">Latitudine:</label>
+            <input type="text" id="latitudine" placeholder="latitudine">
+            <label for="longitudine">Longitudine:</label>
+            <input type="text" id="longitudine" placeholder="longitudine">
+            <input type="radio" id="zona" name="zona" value="zona" >
+            <label for="zona">Zona</label> 
+            <input type="radio" id="sottozona" name="sottozona" value="sottozona">
+            <label for="sottozona">Sottozona</label>
+           
+            <input type="file" id="immagine"  accept="image/png, image/jpeg"  >
+            
+            <div id="id"></div>
+            <div>
+              <button type="button" id="Indietro" onclick="location.href='zone.html'">Indietro</button>
+             <button type="image" id="conferma">Conferma</button>
+          </div>
+        </form>
+ 
+       </div>
+  </section>
+  
+  <script type="module" src="js/aggiungiZona.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,178 @@
+:root {
+    --blue: #007bff;
+    --indigo: #6610f2;
+    --purple: #6f42c1;
+    --pink: #e83e8c;
+    --red: #dc3545;
+    --orange: #fd7e14;
+    --yellow: #ffc107;
+    --green: #28a745;
+    --teal: #20c997;
+    --cyan: #17a2b8;
+    --white: #fff;
+    --gray: #6c757d;
+    --gray-dark: #343a40;
+    --primary: #007bff;
+    --secondary: #6c757d;
+    --success: #28a745;
+    --info: #17a2b8;
+    --warning: #ffc107;
+    --danger: #dc3545;
+    --light: #f8f9fa;
+    --dark: #343a40;
+    --breakpoint-xs: 0;
+    --breakpoint-sm: 576px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 992px;
+    --breakpoint-xl: 1200px;
+    --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  }
+
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: left;
+    background-color: #fff;
+  }
+
+
+img {
+    vertical-align: middle;
+    border-style: none;
+    height: 70px;
+    width: 70px;
+    margin-inline: 20px;
+    margin-bottom: 20px;
+  }
+
+  .nav {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+  }
+  .navbar {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+  }
+  header{
+    height: 120px;
+    display: block;
+  }
+  
+h1, .h1 {
+    margin-right: 35rem;
+    font-size: 2.5rem;
+    color:#FF0000;
+    font-weight:bold;
+  }
+
+  button,
+  select,
+  optgroup,
+  textarea {
+    margin: 0;
+    font-family: inherit;
+    font-size: 20px;
+    line-height: inherit;
+  
+  }
+  
+  button {
+      margin-top: 20px;
+      padding-right: 20px;
+      padding-left: 20px;
+      margin-inline: 10px;
+    border-radius: 20px;
+    background-color: #ffff; 
+    padding-left: 25%;
+    padding-right: 25%;
+    position: relative;
+  
+  }
+  
+  button:hover{
+    background-color: #ff3333;
+    color: #ffff;
+  }
+  
+h2, .h2 {
+    font-size: 2rem;
+    color: #FF0000;
+    font-weight: bold;
+  }
+
+  p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    max-width: 600px;
+  }
+
+
+  button {
+    margin-top: 20px;
+    padding-right: 20px;
+    padding-left: 20px;
+    margin-inline: 10px;
+}
+
+input{
+    margin-inline: 10px;
+    border-radius: 20px;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    margin-top: 20px;
+   }
+  
+   input[type="text"]{
+    margin-inline: 10px;
+    border-radius: 20px;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    margin-top: 20px;
+    width: 98%;
+   }
+
+   textarea{
+    margin-inline: 10px;
+    border-radius: 20px;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    margin-top: 20px;
+    width: 97%;
+   }
+
+   label {
+    display: inline-block;
+    padding-inline-start: 20px;
+  }
+
+  select {
+    word-wrap: normal;
+  }
+
+  fieldset {
+    min-width: 0;
+    padding-right: 20px;
+    margin: 0;
+    border: 0;
+  }

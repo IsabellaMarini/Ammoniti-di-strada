@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+
+  <title>Ammoniti di strada</title>
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="css/inserisciMateriale.css" />
+
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,700|Raleway:400,700&display=swap" rel="stylesheet">
+  
+</head>
+
+<body>
+  <div class="hero_area">
+    <!-- header section strats -->
+    <header class="header_section">
+        <nav class="navbar navbar-expand-lg custom_nav-container">
+          <img src="images/Ammoniti.jpg" alt="" />
+          <h1> 
+            Ammoniti di strada
+          </h1>
+        </nav>
+      </div>
+    </header>
+  
+    <!-- end header section -->
+  
+  <section class="inserisci_materiale">
+    <div class="container-fluid">
+        <h2>
+          Aggiungi un nuovo materiale 
+        </h2>
+        <form id="aggiungi" >
+          <label for="nome">Nome:</label>
+            <input id="nome" type="text" placeholder="nome" name="nome" value=""> 
+            <label for="descrizione">Descrizione:</label>
+            <textarea id="descrizione" class="descrizione" type="text" placeholder="descrizione" name="descrizione" value=""> </textarea>
+            <label for="provenienza">Provenienza:</label>
+            <input type="text" id="provenienza" placeholder="provenienza">
+            <label for="età">Età:</label>
+            <input type="text" id="età" placeholder="età">
+           
+            <input type="file" id="immagine1"  accept="image/png, image/jpeg"  >
+            <input type="file" id="immagine2"  accept="image/png, image/jpeg"  >
+           
+            <div>
+              <button type="button" id="Indietro" onclick="location.href='materiali.html'">Indietro</button>
+             <button type="submit" id="conferma">Conferma</button>
+          </div>
+        </form>
+      
+         
+          
+       </div>
+  </section>
+  
+  <script type="module" src="js/aggiungiMateriali.js"></script>
+</body>
+
+</html>
