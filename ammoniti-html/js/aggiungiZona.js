@@ -1,12 +1,9 @@
-// Import the functions you need from the SDKs you need
+
 import { initializeApp } from  "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
 import { collection, getFirestore,addDoc, getDocs, query, where, updateDoc, doc} from  "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 import{ getStorage, ref, uploadBytesResumable} from  "https://www.gstatic.com/firebasejs/9.15.0/firebase-storage.js";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// Configurazione firebase
 const firebaseConfig = {
   apiKey: "AIzaSyAdRCwgQEkShwLFWx8lkJ0AffDlchwgN1I",
   authDomain: "ammoniti-di-strada.firebaseapp.com",
@@ -20,11 +17,15 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app)
 const storage= getStorage(app)
+
+//vari riferimenti alle componenti html tramite id
 let form= document.querySelector('#aggiungi')
 let nome = document.querySelector('#nome')
 let descrizione = document.querySelector('#descrizione')
 let zona = document.getElementById('zona')
 let sottozona = document.getElementById('sottozona')
+
+//creazione dinamica del menù a tendina in cui inserire le zone e degli input per inserire i valori all'interno della collection livelli
 let livello = document.createElement('p')
 let menu= document.createElement('fieldset')
 let legend = document.createElement('legend')
@@ -46,6 +47,7 @@ let immagine = document.getElementById('immagine')
 let longitudine= document.querySelector('#longitudine')
 let latitudine = document.querySelector('#latitudine')
 
+//creazione label per gli elementi creati dinamicamente
 let labeldescr= document.createElement('label')
 labeldescr.textContent="Descrizione livello: "
 
@@ -61,6 +63,7 @@ labeltop.textContent="Posizione riquadro altezza: "
 let labelleft= document.createElement('label')
 labelleft.textContent="Posizione riquadro larghezza: "
 
+//in caso si dovesse cliccare prima su sottozona e poi su zona si eliminano gli input e il menù creati dinamicamente
 zona.addEventListener("click", (e)=>{
   livello.textContent="0"
   document.getElementById('sottozona').checked=false
@@ -73,9 +76,10 @@ zona.addEventListener("click", (e)=>{
 })
 
 
-
+//in caso si dovesse cliccare su sottozona si mostrano a schermo gli input e il menù a tendina
 sottozona.addEventListener("click", (e)=>{
   document.getElementById('zona').checked= false
+  //menù inizializzato con la prima opzione vuota
   option.textContent=""
   legend.textContent="Scegli una zona: "
   select.appendChild(option)
@@ -83,6 +87,7 @@ sottozona.addEventListener("click", (e)=>{
         menu.appendChild(select)
   div.appendChild(menu)
   const colRef= collection(db, 'zone')
+  //inserimento delle zone all'interno del menù purché nel campo livelli abbiano '0' o '1' altrimenti non può essere inserita come zona
   const z=query(colRef, where('livelli','in', ['0', '1']))
   getDocs((z)).then((snapshot) => {
       snapshot.docs.forEach((doc)=>{
@@ -96,6 +101,7 @@ sottozona.addEventListener("click", (e)=>{
         div.append(menu)
      
       })
+      //una volta effettuato il click su un'opzione si salva l'id della zona di riferimento
       select.addEventListener("change", (e)=>{
         const y=query(colRef, where('nomezona','==', select.value))
          getDocs((y)).then((snapshot) => {
@@ -103,7 +109,6 @@ sottozona.addEventListener("click", (e)=>{
            livello.textContent=doc.data().id
          })
        })
-       
       })  
     descrizione2.placeholder="Descrizione livello"
        heigth.placeholder="Height"
@@ -123,7 +128,7 @@ sottozona.addEventListener("click", (e)=>{
 })})
 
 
-
+// Caricare documento nel db al click sul pulsante
 let add = document.getElementById('conferma')
 const preview = document.querySelector('#preview');
 add.addEventListener("click", (e) =>{
@@ -141,6 +146,8 @@ add.addEventListener("click", (e) =>{
   updateDoc(doc(db, 'zone', x.textContent), {
     id: x.textContent
   })
+
+  //se si clicca su sottozona si aggiunge un documento anche alla collection livelli
    if(livello.textContent !="0"){
     addDoc(collection(db, 'livelli'), {
     zona: livello.textContent,
@@ -151,16 +158,9 @@ add.addEventListener("click", (e) =>{
     width: parseFloat(width.value),
     left: parseFloat(left.value)
   })}})
-  form.setAttribute('file', immagine)
-  
-  
 })
   
-  
-   
-
-
-
+// Caricare le immagini nello storage
 immagine.addEventListener('change', updateImageDisplay);
  function updateImageDisplay() {
 
@@ -173,7 +173,7 @@ immagine.addEventListener('change', updateImageDisplay);
    
     for (const file of curFiles) {
       
-    
+      //scorre ogni bit dell'immagine e la inserisce
         const image = document.createElement('img');
         image.src = URL.createObjectURL(file);
         const metadata = {
@@ -183,10 +183,6 @@ immagine.addEventListener('change', updateImageDisplay);
         const im= ref(storage, 'foto zona 2/' +  immagine.value.replace(/C:\\fakepath\\/i, ''))
         uploadBytesResumable(im, file,  metadata)
       }
-
-    
- 
- 
 }
 }
   

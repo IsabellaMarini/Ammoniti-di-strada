@@ -1,8 +1,10 @@
- function validate(e){
+//si verifica che le credenziali inserite siano corrette altrimenti si genera un errore
+function validate(e){
   let form=document.getElementById('login')
 var password=document.getElementById('password').value;
 var username = document.getElementById('username').value;
 let i=document.getElementById('errore')
+
   if(username=="Ammoniti" && password=="Ammoniti"){
    form.action="dettagli.html?"
   

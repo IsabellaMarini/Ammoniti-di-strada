@@ -1,14 +1,9 @@
-// Import the functions you need from the SDKs you need
 
 import { initializeApp } from  "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
 
 import { collection, getDocs, getFirestore, query, where, orderBy, deleteDoc,getCountFromServer} from  "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// Configurazione firebase
 const firebaseConfig = {
   apiKey: "AIzaSyAdRCwgQEkShwLFWx8lkJ0AffDlchwgN1I",
   authDomain: "ammoniti-di-strada.firebaseapp.com",
@@ -27,7 +22,7 @@ let y=document.createElement('p')
 let z= document.createElement('p')
 let w= document.createElement('p')
 
-
+//conto di quanti dati sono presenti nella collection dettaglio
 const colRef= collection(db, 'dettaglio')
 getDocs((colRef)).then((snapshot) => {
     let dettaglio = [];
@@ -37,6 +32,7 @@ getDocs((colRef)).then((snapshot) => {
         })
         x.textContent=dettaglio.length
      } )
+     //conto di quanti dati sono presenti nella collection segnalazioni
      const colRef= collection(db, 'segnalazioni')
 
 getDocs(colRef).then((snapshot) => {
@@ -48,7 +44,7 @@ getDocs(colRef).then((snapshot) => {
         })
          y.textContent = segnalazioni.length
     })
-    
+    //conto di quanti dati sono presenti nella collection zone
     const colRef= collection(db, 'zone')
 
 getDocs((colRef)).then((snapshot) => {
@@ -59,7 +55,7 @@ getDocs((colRef)).then((snapshot) => {
         })
         z.textContent=zone.length
     })
-   
+  //conto di quanti dati sono presenti nella collection users 
 const colRef= collection(db, 'users')
 
 getDocs((colRef)).then((snapshot) => {
@@ -70,10 +66,10 @@ getDocs((colRef)).then((snapshot) => {
         })
         w.textContent=utenti.length
     })
-   
+   //riferimento al codice html in particolare al canvas da creare
      var oilCanvas = document.querySelector("#Chart");
 
-    
+   //creazione vari componenti del grafico 
 var oilData = {
     labels: [
         "Dettagli",
@@ -92,7 +88,7 @@ var oilData = {
             ]
         }]
 };
-
+//configurazione del grafico
 const config= {
   type: 'pie',
 data: oilData,
@@ -108,12 +104,12 @@ data: oilData,
     }
  
 
-
+//si mettono insieme i dati e si visualizzano
 const pieChart = new Chart(oilCanvas, config);
 
 
   })  })})})
- 
+ //riferimento al codice html in particolare al canvas da creare
 var chart=document.querySelector('#materialsChart')
 
 
@@ -126,6 +122,7 @@ const dbRef= collection(db, 'materiali')
 getDocs((dbRef)).then((snapshot)=>{
   let materiali=[] 
   snapshot.docs.forEach((doc)=>{
+    //generazione automatica dei colori; ne vengono generati tanti quanti sono i documenti nella collection materiali
     var randomColor = Math.floor(Math.random()*16777215).toString(16);
     materiali.push({
       ...doc.data(), id:doc.id
@@ -157,6 +154,7 @@ const ref=collection(db, 'dettaglio')
      }]
  }; 
  let g=[]
+ //per ogni scheda dettaglio si vede il materiale presente; in particolare si conta quante volte un materiale è presente nelle schede dettaglio scorrendo l'array b riempito con gli id dei materiali
  for(let i=0; i<ul.length; i++){
  var e= query(ref, where('materiale', '==', b[i]))
   getDocs((e)).then((snapshot)=>{
@@ -170,6 +168,7 @@ const ref=collection(db, 'dettaglio')
     
     g.push(materiale.length)
 }).then(()=>{
+  //una volta completata l'operazione precedente si crea il grafico con i materiali e il numero di volte in cui sono presenti nelle schede dettaglio
   for(let i=0; i<ul.length; i++){
     Data['labels'][i]=ul[i]
    
@@ -204,11 +203,12 @@ let ul5=[]
 let c2=document.createElement('p')
 let a2= document.createElement('p')
 let b2=[]
-
+//riferimento alla collection zone per leggere i nomi delle zone presenti e il loro id
 const dbRef2= collection(db, 'zone')
 getDocs((dbRef2)).then((snapshot)=>{
  let zone=[] 
  snapshot.docs.forEach((doc)=>{
+    //generazione automatica dei colori; ne vengono generati tanti quanti sono i documenti nella collection zone
   var randomColor = Math.floor(Math.random()*16777215).toString(16);
    zone.push({
      ...doc.data(), id:doc.id
@@ -231,7 +231,7 @@ var Data={
         backgroundColor: []
     }]
 }; 
-
+//per ogni scheda dettaglio si vede la zona di riferimento; in particolare si conta quante volte una zona è presente nelle schede dettaglio scorrendo l'array b2 riempito con gli id delle zone
 let g2=[]
 for(let i=0; i<ul2.length; i++){
 var e= query(ref, where('zona', '==', b2[i]))
@@ -246,6 +246,7 @@ var e= query(ref, where('zona', '==', b2[i]))
    
    g2.push(zona.length)
 }).then(()=>{
+  //una volta completata l'operazione precedente si crea il grafico con le zone e il numero di volte in cui sono presenti nelle schede dettaglio
  for(let i=0; i<ul2.length; i++){
    Data['labels'][i]=ul2[i]
   
@@ -276,19 +277,14 @@ var usersChart=document.querySelector('#usersChart')
  let c3=document.createElement('p')
  let a3= document.createElement('p')
  let b3=[]
- let e3= document.createElement('p')
-let f3= document.createElement('p')
-let g3= document.createElement('p')
-let h3= document.createElement('p')
-let i3=document.createElement('p')
-let l3=document.createElement('p')
-let x3 = document.createElement('p')
-let y3=document.createElement('p')
-let z3=document.createElement('p')
+
 const dbRef3= collection(db, 'users')
+//riferimento alla collection users per leggere i nomi degli utenti presenti e il loro uid
 getDocs((dbRef3)).then((snapshot)=>{
   let materiali=[] 
   snapshot.docs.forEach((doc)=>{
+    
+    //generazione automatica dei colori; ne vengono generati tanti quanti sono i documenti nella collection users
     var randomColor = Math.floor(Math.random()*16777215).toString(16);
     materiali.push({
       ...doc.data(), id:doc.id
@@ -312,6 +308,7 @@ var Data={
 }; 
 let g4=[]
 for(let i=0; i<ul3.length; i++){
+  //per ogni segnalazione si vede l'utente che l'ha effettuata; in particolare si conta quante volte un utente ha fatto una segnalazione scorrendo l'array b3 riempito con gli uid degli utenti
 var e= query(ref, where('user', '==', b3[i]))
  getDocs((e)).then((snapshot)=>{
    let utenti=[] 
@@ -325,6 +322,7 @@ var e= query(ref, where('user', '==', b3[i]))
    g4.push(utenti.length)
 }).then(()=>{
  for(let i=0; i<ul3.length; i++){
+   //una volta completata l'operazione precedente si crea il grafico con gli utenti e il numero di volte in cui hanno fatto una segnalazione
    Data['labels'][i]=ul3[i]
   
    Data['datasets'][0].backgroundColor[i]=ul6[i]

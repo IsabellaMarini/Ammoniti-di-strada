@@ -2,11 +2,7 @@
 import { initializeApp } from  "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
 import { collection,  getFirestore,addDoc, getDocs, query, where, serverTimestamp, updateDoc, doc} from  "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 import{ getStorage, ref, uploadBytesResumable} from  "https://www.gstatic.com/firebasejs/9.15.0/firebase-storage.js";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// Configurazione firebase
 const firebaseConfig = {
   apiKey: "AIzaSyAdRCwgQEkShwLFWx8lkJ0AffDlchwgN1I",
   authDomain: "ammoniti-di-strada.firebaseapp.com",
@@ -21,19 +17,27 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app)
 const storage=getStorage(app)
 
+//vari riferimenti alle componenti html tramite id
 let descrizione= document.querySelector('#descrizione')
 let select1 = document.querySelector('#zone')
 let select2= document.querySelector('#materiali')
+
+//creazione dinamica delle opzioni dei menù a tendina
 let option= document.createElement('option')
 let option2= document.createElement('option')
 let zona=document.createElement('p')
 let materiale = document.createElement('p')
 let immagine=document.querySelector('#immagine')
+
+//Inizializzazione dei menù a tendina con la prima opzione vuota
+
 option.textContent=""
 option2.textContent=""
 select1.append(option)
 select2.append(option2)
 
+
+//creazione menu a tendina; nelle varie opzioni vengono inseriti i nomi delle varie zone presenti sul db
 const colRef= collection(db, 'zone')
 getDocs((colRef)).then((snapshot) => {
     snapshot.docs.forEach((doc)=>{
@@ -41,6 +45,7 @@ getDocs((colRef)).then((snapshot) => {
       select1.appendChild(option)
       option.textContent=doc.data().nomezona
       select1.appendChild(option)})
+       //una volta effettuato il click su un'opzione si salva l'id della zona di riferimento
       select1.addEventListener("change", (e)=>{
         const y=query(colRef, where('nomezona','==', select1.value))
          getDocs((y)).then((snapshot) => {
@@ -51,6 +56,8 @@ getDocs((colRef)).then((snapshot) => {
       })  
     })
 
+
+    //creazione menu a tendina; nelle varie opzioni vengono inseriti i nomi dei vari materiali presenti sul db
     const colRef2= collection(db, 'materiali')
     getDocs((colRef2)).then((snapshot) => {
         snapshot.docs.forEach((doc)=>{
@@ -58,6 +65,7 @@ getDocs((colRef)).then((snapshot) => {
           select2.appendChild(option)
           option.textContent=doc.data().nome
           select2.appendChild(option)})
+           //una volta effettuato il click su un'opzione si salva l'id del materiale di riferimento
           select2.addEventListener("change", (e)=>{
             const y=query(colRef2, where('nome','==', select2.value))
              getDocs((y)).then((snapshot) => {
@@ -67,6 +75,8 @@ getDocs((colRef)).then((snapshot) => {
            })
           })  
 })
+
+// Caricare documento nel db al click sul pulsante
 let x= document.createElement('p')
 
 let add = document.getElementById('conferma')
@@ -92,7 +102,7 @@ add.addEventListener("click", (e)=>{
 
 })
 
-
+// Caricare le immagini nello storage
 immagine.addEventListener('change', updateImageDisplay);
  function updateImageDisplay() {
 
@@ -104,7 +114,7 @@ immagine.addEventListener('change', updateImageDisplay);
   } else {
    
     for (const file of curFiles) {
-      
+       //scorre ogni bit dell'immagine e la inserisce
     
         const image = document.createElement('img');
         image.src = URL.createObjectURL(file);
@@ -115,9 +125,5 @@ immagine.addEventListener('change', updateImageDisplay);
         const im= ref(storage, 'foto dettaglio/' +  immagine.value.replace(/C:\\fakepath\\/i, ''))
         uploadBytesResumable(im, file,  metadata)
       }
-
-    
- 
- 
 }
 }

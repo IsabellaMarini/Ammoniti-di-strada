@@ -2,11 +2,7 @@
 import { initializeApp } from  "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
 import { collection, getDocs, getFirestore, setDoc,updateDoc, query, deleteDoc, doc, where, addDoc} from  "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 import{ getStorage, ref, getDownloadURL, uploadBytesResumable} from  "https://www.gstatic.com/firebasejs/9.15.0/firebase-storage.js";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// Configurazione firebase
 const firebaseConfig = {
   apiKey: "AIzaSyAdRCwgQEkShwLFWx8lkJ0AffDlchwgN1I",
   authDomain: "ammoniti-di-strada.firebaseapp.com",
@@ -21,7 +17,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app)
 const storage = getStorage(app)
 
-
+//visualizza i dati del materiale da modificare già presenti sul db
 function modificaMateriale(docu){
 let form= document.querySelector('#aggiungi')
 
@@ -43,7 +39,7 @@ immagine.textContent=docu.data().image1
 immagine2.textContent=docu.data().image2
 
 
-
+//carica il nome delle immagini inserite tramite l'input di tipo file
 image.addEventListener("change", (e)=>{
     immagine2.textContent=image.value.replace(/C:\\fakepath\\/i, '')
 })
@@ -51,7 +47,7 @@ image2.addEventListener("change", (e)=>{
   immagine.textContent=image2.value.replace(/C:\\fakepath\\/i, '')})
 
 
-
+//modifica i campi del documento indicato precedentemente leggendo l'id salvato dalla pagina precedente
 let update = document.getElementById('conferma')
 update.addEventListener("click", (e)=>{
   e.preventDefault()
@@ -66,6 +62,7 @@ update.addEventListener("click", (e)=>{
    
 })
 
+//caricamento delle immagini inserite all'interno dello storage di riferimento
 immagine.addEventListener('change', updateImageDisplay);
  function updateImageDisplay() {
 
@@ -120,6 +117,7 @@ immagine2.addEventListener('change', updateImageDisplay);
 }
 }
 
+//lettura dei dati del materiale salvati sul db attraverso l'id salvato nella pagina precedente
 const colRef= collection(db, 'materiali')
 const x= query(colRef, where('id', '==', sessionStorage.getItem('id')))
 getDocs((x)).then((snapshot) => {

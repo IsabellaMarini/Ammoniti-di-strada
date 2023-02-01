@@ -3,11 +3,7 @@ import { initializeApp } from  "https://www.gstatic.com/firebasejs/9.15.0/fireba
 
 import { collection, getDocs, getFirestore, query, orderBy, deleteDoc, doc, where} from  "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 import{ getStorage, ref, getDownloadURL} from  "https://www.gstatic.com/firebasejs/9.15.0/firebase-storage.js";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// Configurazione firebase
 const firebaseConfig = {
   apiKey: "AIzaSyAdRCwgQEkShwLFWx8lkJ0AffDlchwgN1I",
   authDomain: "ammoniti-di-strada.firebaseapp.com",
@@ -23,6 +19,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const storage = getStorage(app);
 const listaMateriali= document.querySelector('#lettura')
+//si riempie la tabella definita in html con i dati presi dal db: doc1 fa riferimento alla collection 'materiali'
 function letturaMateriali(doc1){
  
   let tr= document.createElement('tr');
@@ -34,6 +31,8 @@ function letturaMateriali(doc1){
   let nome = document.createElement('h3');
   
   let immagine1 = document.createElement('img');
+
+  //si caricano le immagini di riferimento dallo storage
   var img=getDownloadURL( ref(storage, 'foto materiali/' + doc1.data().image1 )).then((url)=>
       immagine1.setAttribute('src', url))
   
@@ -51,7 +50,10 @@ immagine2.textContent=img
   let elimina = document.createElement('button');
   let modifica = document.createElement('button');
 
-  tr.setAttribute('data-id', doc.id);
+  //nelle righe della tabella definita in html si prende il riferimento all'id del documento
+  tr.setAttribute('data-id', doc1.id);
+
+  //si riempiono le componenti definite precedentemente con i dati presi dal db
   nome.textContent = doc1.data().nome;
   immagine1.textContent= doc1.data().image1;
   immagine2.textContent= doc1.data().image2;
@@ -60,6 +62,8 @@ immagine2.textContent=img
   provenienza.textContent = "Provezienza: "+ doc1.data().provenienza;
   modifica.textContent= "Modifica";
   elimina.textContent="Elimina";
+
+  //si caricano i campi dei documenti nell'opportuna colonna della tabella
   td2.appendChild(nome);
   td1.appendChild(immagine1);
   td1.appendChild(immagine2);
@@ -67,11 +71,14 @@ immagine2.textContent=img
   td2.appendChild(età);
   td2.appendChild(provenienza);
   td2.append(modifica);
+
+  //si rimanda alla pagina di modifica del materiale salvando anche l'id del materiale di riferimento
   modifica.addEventListener("click", (e)=>{
     location.href="modificaMateriale.html?"+doc1.id
     sessionStorage.setItem("id", doc1.id)
   })
   td2.append(elimina);
+  //si permette l'eliminazione di un materiale sono dopo aver verificato che esso non è presente in nessuna scheda dettaglio attraverso l'id di riferimento
   const ref1 =collection(db, 'dettaglio')
   const a = query(ref1, where('materiale', '==', doc1.id))
   getDocs(a).then((snapshot)=>{
@@ -95,6 +102,8 @@ immagine2.textContent=img
   tr.appendChild(td2);
   listaMateriali.append(tr);
 }
+
+//si leggono tutti i materiali presenti nella collection e si inseriscono nella tabella attraverso la funzione precedente
 const colRef= collection(db, 'materiali')
 const z=query(colRef, orderBy('nome', 'desc'))
 getDocs(z).then((snapshot) => {

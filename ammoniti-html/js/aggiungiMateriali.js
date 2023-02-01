@@ -1,11 +1,8 @@
 import { initializeApp } from  "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
 import { collection, getFirestore,addDoc, updateDoc, doc} from  "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 import{ getStorage, ref, uploadBytesResumable} from  "https://www.gstatic.com/firebasejs/9.15.0/firebase-storage.js";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// Configurazione firebase
 const firebaseConfig = {
   apiKey: "AIzaSyAdRCwgQEkShwLFWx8lkJ0AffDlchwgN1I",
   authDomain: "ammoniti-di-strada.firebaseapp.com",
@@ -19,6 +16,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app)
 const storage = getStorage(app)
+
+//vari riferimenti alle componenti html tramite id
 let nome= document.querySelector('#nome')
 let descrizione= document.querySelector('#descrizione')
 let età= document.querySelector('#età')
@@ -28,6 +27,7 @@ let immagine2= document.querySelector('#immagine2')
 let x= document.createElement('p')
 let add = document.getElementById('conferma')
 
+// Caricare documento nel db al click sul pulsante
 add.addEventListener("click", (e) =>{
     e.preventDefault()
    addDoc( collection(db,'materiali'),{
@@ -43,24 +43,21 @@ add.addEventListener("click", (e) =>{
   updateDoc(doc(db, 'materiali', x.textContent), {
     id: x.textContent
   })})
- 
-  
-  
 })
 
+// Caricare le immagini nello storage
 immagine1.addEventListener('change', updateImageDisplay);
  function updateImageDisplay() {
 
-  const curFiles = immagine1.files;
-  if (curFiles.length === 0) {
+  const file = immagine1.files;
+  if (file.length === 0) {
     const para = document.createElement('p');
     para.textContent = 'No files currently selected for upload';
     preview.textContent=para;
   } else {
-   
+   //scorre ogni bit dell'immagine e la inserisce
     for (const file of curFiles) {
-      
-    
+
         const image = document.createElement('img');
         image.src = URL.createObjectURL(file);
         const metadata = {

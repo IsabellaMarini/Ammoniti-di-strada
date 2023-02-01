@@ -161,6 +161,7 @@ h1, .h1 {
   }
  
 h2, .h2 {
+  margin-inline-start: 20px;
     font-size: 2rem;
     color: #FF0000;
     font-weight: bold;

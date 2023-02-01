@@ -2,11 +2,7 @@
 import { initializeApp } from  "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
 import { collection, getDocs, getFirestore, updateDoc, query, doc, where} from  "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 import{ getStorage, ref, uploadBytesResumable} from  "https://www.gstatic.com/firebasejs/9.15.0/firebase-storage.js";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+//Configurazione Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyAdRCwgQEkShwLFWx8lkJ0AffDlchwgN1I",
   authDomain: "ammoniti-di-strada.firebaseapp.com",
@@ -21,7 +17,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app)
 const storage = getStorage(app)
 
-
+//lettura zona di riferimento: docu è la zona, doc2 è il documento nella collection livelli
 function ModificaZone(docu, doc2){
 let form= document.querySelector('#div')
 let nome = document.querySelector('#nome')
@@ -35,12 +31,15 @@ longitude.value=docu.data().long
 let immagine = document.querySelector('#immagine')
 let image = document.getElementById('immagine2')
 
+//creazione menù a tendina che si visualizzerà solo in caso la zona sia una sottozona
 let menu= document.createElement('fieldset')
 let legend = document.createElement('legend')
 let select = document.createElement('select')
 let option=document.createElement('option')
 immagine.textContent=docu.data().fotozona
 let zona = document.getElementById('z')
+
+//in base al valore del campo livelli nel db assegna un valore alla stringa zona 
 if(docu.data().livelli=='0' || docu.data().livelli=='1'){
     zona.textContent="Zona"
     
@@ -80,7 +79,7 @@ width.placeholder="Width"
 left.placeholder="Left"
 
  
-
+//se il valore di zona è sottozona crea un menù a tendina con le varie zone di riferimento facendo apparire come selezionate la zona che è inserita nel db
 if(zona.textContent=="Sottozona"){
   const colRef= collection(db, 'zone')
   const z=query(colRef, where('livelli','in', ['0', '1']))
@@ -102,6 +101,7 @@ if(zona.textContent=="Sottozona"){
           })
         })
       })
+      //se cambia l'opzione selezionata legge l'id della zona per inserirla sul db
       select.addEventListener("change", (e)=>{
         const y=query(colRef, where('nomezona','==', select.value))
          getDocs((y)).then((snapshot) => {
@@ -111,6 +111,7 @@ if(zona.textContent=="Sottozona"){
        })
       })  
     })
+    //comparsa menù a tendina e input con i campi della collection livelli
   descrizione2.value=doc2.data().descr
   height.value=doc2.data().height
   top.value=doc2.data().top
@@ -135,12 +136,12 @@ if(zona.textContent=="Sottozona"){
   }
 
 
-
+//aggiornamento immagine di riferimento
 image.addEventListener("change", (e)=>{
   immagine.textContent=image.value.replace(/C:\\fakepath\\/i, '')})
 
 
-
+//aggiornamento campi documento nella collection 'zone' e nella collection 'livelli'
 let update = document.getElementById('conferma2')
 update.addEventListener("click", (e)=>{
   e.preventDefault()
@@ -164,6 +165,7 @@ update.addEventListener("click", (e)=>{
 
     
     })
+    //aggiunta immagine nello storage
     const metadata = {
       contentType:'image/png',
       contentType: 'image/jpeg',
@@ -194,7 +196,7 @@ update.addEventListener("click", (e)=>{
 }
 
 
-
+//lettura documento il cui riferimento è preso dalla pagina precedente 
 const colRef= collection(db, 'zone')
 const x= query(colRef, where('id', '==', sessionStorage.getItem('id')))
 getDocs((x)).then((snapshot) => {
@@ -203,6 +205,7 @@ getDocs((x)).then((snapshot) => {
         zone.push({
           ...doc.data(), id:doc.id
         })
+        //se la zona è una sottozone si va a leggere anche nella collection livelli
         if(doc.data().livelli!='0' && doc.data().livelli!='1'){
         const y=collection(db, 'livelli')
         const w = query(y, where('zonaout', '==', sessionStorage.getItem('id')))

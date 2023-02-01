@@ -2,11 +2,7 @@
 import { initializeApp } from  "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
 import { collection, getDocs, getFirestore, orderBy, query, deleteDoc, doc, where} from  "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 import{ getStorage, ref, getDownloadURL} from  "https://www.gstatic.com/firebasejs/9.15.0/firebase-storage.js";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+//configurazione Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyAdRCwgQEkShwLFWx8lkJ0AffDlchwgN1I",
   authDomain: "ammoniti-di-strada.firebaseapp.com",
@@ -23,6 +19,8 @@ const db = getFirestore(app)
 const storage = getStorage(app);
 
 const listaZone= document.querySelector('#lettura')
+
+//visualizzazione campi della collection zone all'interno della tabella
 function letturaZone(docu){
  
   let tr = document.createElement('tr');
@@ -47,10 +45,11 @@ function letturaZone(docu){
 
   let elimina = document.createElement('button');
 
-
+  //caricamento degli id delle zone nelle varie righe della tabella
   tr.setAttribute('data-id', docu.id);
   nome.textContent = docu.data().nomezona;
   
+  //Stampa immagine presente sullo storage
   var img=getDownloadURL( ref(storage, 'foto zona 2/' + docu.data().fotozona )).then((url)=>
       immagine.setAttribute('src', url)
   )
@@ -65,6 +64,7 @@ function letturaZone(docu){
   latitudine.textContent = "Latitudine: "+docu.data().lat;
   modifica.textContent= "Modifica";
   elimina.textContent="Elimina";
+  //stampa a video dei vari dati nelle opportune colonne della tabella
   td2.appendChild(nome);
   td1.appendChild(immagine);
   td2.appendChild(descrizione);
@@ -75,11 +75,12 @@ function letturaZone(docu){
   td2.append(elimina);
   tr.append(td1);
   tr.append(td2);
+  //riferimento alla pagina di modifica delle zone
   modifica.addEventListener("click", (e)=>{
     location.href="ModificaZone.html?"+docu.id
     sessionStorage.setItem("id", docu.id)
   })
- 
+    //si consente la comparsa del bottone elimina solo se nella collection dettaglio e nella collection livelli la zona non è mai presente
     const ref1 =collection(db, 'dettaglio')
     const a = query(ref1, where('zona', '==', docu.id))
     getDocs(a).then((snapshot)=>{
@@ -89,7 +90,7 @@ function letturaZone(docu){
           ...doc3.data(), id: doc3.id
         })
       })
-
+    
       const ref2=collection(db, 'livelli')
       const b= query(ref2, where('zona', '==', docu.id))
       getDocs(b).then((snapshot)=>{
@@ -123,7 +124,7 @@ function letturaZone(docu){
     listaZone.append(tr);
   }
  
-
+//lettura dati presenti nella collection zone
 const colRef= collection(db, 'zone')
 const z=query(colRef, orderBy('nomezona'))
 getDocs((z)).then((snapshot) => {

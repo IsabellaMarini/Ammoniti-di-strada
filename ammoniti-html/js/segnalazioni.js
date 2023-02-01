@@ -3,11 +3,7 @@ import { initializeApp } from  "https://www.gstatic.com/firebasejs/9.15.0/fireba
 
 import { collection, getDocs, getFirestore, query, deleteDoc, where , doc} from  "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 import{getStorage, ref, getDownloadURL } from  "https://www.gstatic.com/firebasejs/9.15.0/firebase-storage.js";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+//configurazione Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyAdRCwgQEkShwLFWx8lkJ0AffDlchwgN1I",
   authDomain: "ammoniti-di-strada.firebaseapp.com",
@@ -23,6 +19,8 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const storage = getStorage(app);
 const listaSegnalazioni= document.querySelector('#lettura')
+
+//visualizza i campi dei documenti presenti nella segnalazione: doc1 sono i documenti nella collection 'segnalazione', doc2 sono i documenti nella collection 'users'
 function letturaSegnalazioni(doc1, doc2){
  
   let tr = document.createElement('tr');
@@ -32,6 +30,7 @@ function letturaSegnalazioni(doc1, doc2){
   
   
   let immagine = document.createElement('img');
+  //visualizzazione immagine dallo storoge
   var img=getDownloadURL( ref(storage,  doc1.data().downloadURL )).then((url)=>
   immagine.setAttribute('src', url))
   
@@ -41,6 +40,7 @@ function letturaSegnalazioni(doc1, doc2){
   let elimina = document.createElement('button');
   let modifica = document.createElement('button');
 
+  //si prende il riferimento del documento all'interno delle righe della tabella
   tr.setAttribute('data-id', doc1.id);
 
   immagine.textContent= img;
@@ -49,14 +49,17 @@ function letturaSegnalazioni(doc1, doc2){
   modifica.textContent= "Modifica";
   elimina.textContent="Elimina";
   
+  //stampa a video dei vari campi dei documenti nell'opportuna colonna della tabella
   td1.appendChild(immagine);
   td2.appendChild(descrizione);
   td2.appendChild(utente);
   td2.appendChild(modifica);
+  //riferimento alla pagina di modifica delle segnalazioni
   modifica.addEventListener("click", (e)=>{
     location.href="modificaSegnalazione.html?"+doc1.id
     sessionStorage.setItem("id", doc1.id)
   })
+  //eliminazione documento di riferimento
   td2.appendChild(elimina);
   elimina.addEventListener("click", (e)=>{
     let w=confirm("Sei sicuro di voler eliminare questa segnalazione?")
@@ -67,6 +70,7 @@ function letturaSegnalazioni(doc1, doc2){
   tr.appendChild(td2);
   listaSegnalazioni.append(tr);
 }
+//lettura dei documenti presenti nella collection segnalazioni
 const colRef= collection(db, 'segnalazioni')
 
 getDocs(colRef).then((snapshot) => {
@@ -76,6 +80,7 @@ getDocs(colRef).then((snapshot) => {
           ...doc.data(), id:doc.id
           
         })
+        //lettura dati dell'utente che ha fatto la segnalazione di riferimento
         const x= collection(db, 'users')
       const y = query(x, where('uid', '==', doc.data().user));
       getDocs(y).then((snapshot) => {

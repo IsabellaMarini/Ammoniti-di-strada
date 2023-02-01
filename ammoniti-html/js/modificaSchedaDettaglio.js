@@ -2,11 +2,7 @@
 import { initializeApp } from  "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
 import { collection, getDoc, getDocs, getFirestore, updateDoc, query,  doc, where} from  "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 import{ getStorage, ref, uploadBytesResumable } from  "https://www.gstatic.com/firebasejs/9.15.0/firebase-storage.js";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+//Configurazione firebase
 const firebaseConfig = {
   apiKey: "AIzaSyAdRCwgQEkShwLFWx8lkJ0AffDlchwgN1I",
   authDomain: "ammoniti-di-strada.firebaseapp.com",
@@ -21,7 +17,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app)
 const storage = getStorage(app)
 
-
+//visualizzazione dati salvati sul db nel documento salvato precedentemente con l'id
 function modificaDettagli(docu){
 let form= document.querySelector('#aggiungi')
 
@@ -36,6 +32,7 @@ let immagine = document.getElementById('image')
 
 immagine.textContent=docu.fotofossile
 
+//lettura dei nomi delle zone presenti sul database e inserimento nel menù a tendina; per prima viene visualizzata la zona già salvata
 const dbRef= collection(db, 'zone')
 const a= query(dbRef, where('id', '==', docu.zona))
 getDocs((a)).then((snapshot)=>{
@@ -47,6 +44,8 @@ getDocs((a)).then((snapshot)=>{
   })
   console.log(option)
 })
+
+//lettura dei nomi deli materiali presenti sul database e inserimento nel menù a tendina; per prima viene visualizzato il materiale già salvato
 const ref1= collection(db, 'materiali')
       const y= query(ref1, where('id', '==', docu.materiale))
       getDocs((y)).then((snapshot)=>{
@@ -69,7 +68,7 @@ getDocs((colRef)).then((snapshot) => {
 
  })
       
-    
+    //una volta fatto il click su una opzione la zona viene inserita sul database tramite l'id
       select1.addEventListener("change", (e)=>{
         const y=query(colRef, where('nomezona','==', select1.value))
          getDocs((y)).then((snapshot) => {
@@ -88,6 +87,7 @@ getDocs((colRef)).then((snapshot) => {
           select2.appendChild(option)
           option.textContent=doc.data().nome
           select2.appendChild(option)})
+          //una volta fatto il click su una opzione il materiale viene inserito sul database tramite l'id
           select2.addEventListener("change", (e)=>{
             const y=query(colRef2, where('nome','==', select2.value))
              getDocs((y)).then((snapshot) => {
@@ -99,13 +99,13 @@ getDocs((colRef)).then((snapshot) => {
 })
 
 
-
+//visualizzazione nome dell'immagine inserita tramite l'input di tipo file
 image.addEventListener("change", (e)=>{
     immagine.textContent=image.value.replace(/C:\\fakepath\\/i, '')
 })
 
 
-
+//aggiornamento documento con i campi inseriti
 let update = document.getElementById('conferma')
 update.addEventListener("click", (e)=>{
   e.preventDefault()
@@ -118,7 +118,7 @@ update.addEventListener("click", (e)=>{
     
 })
 
-
+//caricamento nuova immagine sullo storage
  immagine.addEventListener('change', updateImageDisplay);
  function updateImageDisplay() {
 
@@ -146,12 +146,13 @@ update.addEventListener("click", (e)=>{
 }
 }
 
+//lettura dati relativi alla scheda dettaglio attraverso l'id salvato precedentemente
 const colRef= doc(db, 'dettaglio', sessionStorage.getItem('id'))
 getDoc((colRef)).then((doc)=>{
   if (doc.exists){
-    // Convert to City object
+   
     var dettagli = doc.data();
-    // Use a City instance method
+    
     console.log(dettagli);
   } 
   modificaDettagli(dettagli)
